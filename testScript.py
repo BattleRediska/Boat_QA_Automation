@@ -24,28 +24,6 @@ def test_paddle_angle(angle_before, angle_add, angle_after):
     assert boat.left_paddle_angle == angle_after, 'Broken property left_paddle_angle'
 
 
-
-@pytest.mark.parametrize('angle_before, rotate_amount, angle_after',
-                         [(15, 8, 55),
-                          (1, 20, 101),
-                          (115, 22, 225),
-                          (135, 856, 95),
-                          (1225, 823, 300),
-                          (-125, 823, 30),
-                          (-115, 81, 290),
-                          (18957878, 88, 358), ])
-def test_boat_angle(angle_before, rotate_amount, angle_after):
-    boat_params = BoatParams(move_angle=angle_before)
-    boat_constants = BoatConstants(base_rotate_angle=5)
-    boat = Boat(boat_params=boat_params, boat_constants=boat_constants)
-    for i in range(rotate_amount):
-        boat.rotate_right_paddle()
-    assert boat.move_angle == angle_after, 'Broken method rotate_right_paddle'
-    for i in range(rotate_amount):
-        boat.rotate_left_paddle()
-    assert boat.move_angle == angle_before % 360, 'Broken method rotate_left_paddle'
-
-
 @pytest.mark.parametrize("capacity, add_people_amount, people_after, expected_exception_raised",
                          [(15, 8, 9, False),
                           (1, 20, 0, True),
@@ -92,6 +70,27 @@ def test_anchor_dropped(anchor_dropped_before, anchor_dropped_after, expected_ex
         boat = Boat(boat_params=boat_params)
         boat.anchor_dropped()
         assert boat.anchor_dropped == anchor_dropped_after, 'Broken method anchor_dropped'
+
+
+@pytest.mark.parametrize('angle_before, rotate_amount, angle_after',
+                         [(15, 8, 55),
+                          (1, 20, 101),
+                          (115, 22, 225),
+                          (135, 856, 95),
+                          (1225, 823, 300),
+                          (-125, 823, 30),
+                          (-115, 81, 290),
+                          (18957878, 88, 358), ])
+def test_boat_angle(angle_before, rotate_amount, angle_after):
+    boat_params = BoatParams(move_angle=angle_before)
+    boat_constants = BoatConstants(base_rotate_angle=5)
+    boat = Boat(boat_params=boat_params, boat_constants=boat_constants)
+    for i in range(rotate_amount):
+        boat.rotate_right_paddle()
+    assert boat.move_angle == angle_after, 'Broken method rotate_right_paddle'
+    for i in range(rotate_amount):
+        boat.rotate_left_paddle()
+    assert boat.move_angle == angle_before % 360, 'Broken method rotate_left_paddle'
 
 
 def test_boat_working():
